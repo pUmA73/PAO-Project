@@ -8,12 +8,37 @@ public class TransactionDao {
 
     private static List<Transaction> transactions = new ArrayList<>();
 
+    // Search for transactions by Id
+    public Transaction read(String transactionId) {
+        if(!transactions.isEmpty()) {
+            for(Transaction t : transactions) {
+                if(t.getTransactionId().equals(transactionId)) {
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+
     // Search for transactions finalized for a specific vehicle
     public Transaction read(String make, String model) {
         if(!transactions.isEmpty()) {
             for(Transaction t : transactions) {
                 if(t.getSoldVehicle().getModel().equals(model) &&
                    t.getSoldVehicle().getMake().equals(make)) {
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+
+    // Search for transactions of a specific user
+    public Transaction readUser(String firstName, String lastName) {
+        if(!transactions.isEmpty()) {
+            for(Transaction t : transactions) {
+                if(t.getBuyer().getFirstName().equals(firstName) &&
+                        t.getBuyer().getLastName().equals(lastName)) {
                     return t;
                 }
             }

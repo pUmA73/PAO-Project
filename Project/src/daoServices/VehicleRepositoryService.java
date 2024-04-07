@@ -7,6 +7,10 @@ import models.Motorcycle;
 import models.Car;
 import models.Vehicle;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class VehicleRepositoryService {
 
     private CarDao carDao;
@@ -15,6 +19,13 @@ public class VehicleRepositoryService {
     public VehicleRepositoryService() {
         this.carDao = new CarDao();
         this.motorcycleDao = new MotorcycleDao();
+    }
+
+    public List<Car> sortCarsByHp() {
+        List<Car> orderedCars = carDao.getCarsList();
+        // Sorting the list of cars
+        orderedCars.sort(Comparator.comparingInt(Vehicle::getPower));
+        return orderedCars;
     }
 
     public Car getCarByMakeModel(String make, String model) {

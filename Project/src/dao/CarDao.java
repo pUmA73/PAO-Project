@@ -20,6 +20,10 @@ public class CarDao {
         return null;
     }
 
+    public List<Car> getCarsList() {
+        return cars;
+    }
+
     public void delete(Car car) {
         cars.remove(car);
     }

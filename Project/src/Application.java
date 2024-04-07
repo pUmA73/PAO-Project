@@ -1,6 +1,5 @@
 import services.VehicleService;
 
-import javax.crypto.spec.PSource;
 import java.util.Scanner;
 
 public class Application {
@@ -23,6 +22,9 @@ public class Application {
                 case "Read":
                     vehicleService.read(scanner);
                     break;
+                case "Read cars by hp":
+                    vehicleService.readOrderedCars();
+                    break;
                 case "Update":
                     vehicleService.update(scanner);
                     break;
@@ -42,6 +44,7 @@ public class Application {
         System.out.println("Available commands: ");
         System.out.println("Create");
         System.out.println("Read");
+        System.out.println("Read cars by hp");
         System.out.println("Update");
         System.out.println("Delete");
         System.out.println("Quit");

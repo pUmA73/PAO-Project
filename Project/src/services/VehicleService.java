@@ -5,6 +5,7 @@ import models.Car;
 import models.Motorcycle;
 import models.Vehicle;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class VehicleService {
@@ -115,6 +116,12 @@ public class VehicleService {
         vehicleInit(scanner, typeOfVehicle);
     }
 
+    public void readOrderedCars() {
+        List<Car> orderedCars = databaseService.sortCarsByHp();
+        for(Car car : orderedCars) {
+            System.out.println(car);
+        }
+    }
 
     public void read(Scanner scanner) {
         System.out.println("Make:");
