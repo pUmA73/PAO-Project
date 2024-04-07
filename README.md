@@ -18,3 +18,6 @@
 - Delete
 - Update
 - Quit
+- Create / Delete / Update Transaction
+- Create / Delete / Update Offer
+- Create / Delete / Update Auction
