@@ -5,6 +5,8 @@ public class Motorcycle extends Vehicle{
     private boolean hasQuickshifter;
     private boolean hasABS;
 
+    public Motorcycle() {}
+
     public Motorcycle(Vehicle vehicle) {
         super(vehicle.getMake(), vehicle.getModel(), vehicle.getProductionYear(), vehicle.getEngineCapacity(),
                 vehicle.getEngineConfiguration(), vehicle.getPower(), vehicle.getTorque(), vehicle.getColor(),

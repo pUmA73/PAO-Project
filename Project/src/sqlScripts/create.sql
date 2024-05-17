@@ -75,4 +75,22 @@ CREATE TABLE `auctionsapp_schema`.`transaction` (
     FOREIGN KEY (`buyerId`) REFERENCES `user`(`userId`),
     FOREIGN KEY (`sellerId`) REFERENCES `user`(`userId`),
     FOREIGN KEY (`vehicleId`) REFERENCES `auction`(`auctionId`)
-)
+);
+
+ALTER TABLE `auctionsapp_schema`.`auction` ADD sellerId INT;
+
+ALTER TABLE `auctionsapp_schema`.`auction` ADD CONSTRAINT fk_seller
+FOREIGN KEY (`sellerId`) REFERENCES `user`(`userId`);
+
+SELECT CONSTRAINT_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'motorcycle' AND COLUMN_NAME = 'vehicleId';
+
+#ALTER TABLE `auctionsapp_schema`.`motorcycle`
+#DROP FOREIGN KEY `motorcycle_ibfk_1`;
+
+ALTER TABLE `auctionsapp_schema`.`motorcycle`
+ADD CONSTRAINT `motorcycle_ibfk_1`
+FOREIGN KEY (`vehicleId`) REFERENCES `vehicle`(`vehicleId`) ON DELETE CASCADE;
+
+

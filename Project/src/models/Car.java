@@ -5,6 +5,8 @@ public class Car extends Vehicle{
     private String gearboxType;
     private String driveType;
 
+    public Car() {}
+
     public Car(Vehicle vehicle) {
         super(vehicle.getMake(), vehicle.getModel(), vehicle.getProductionYear(), vehicle.getEngineCapacity(),
                 vehicle.getEngineConfiguration(), vehicle.getPower(), vehicle.getTorque(), vehicle.getColor(),
