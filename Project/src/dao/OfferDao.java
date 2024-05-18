@@ -1,42 +1,103 @@
 package dao;
 
+import models.Auction;
 import models.Offer;
+import models.User;
+import utils.DatabaseConnection;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class OfferDao {
+public class OfferDao implements DaoInterface<Offer>{
 
-    private static List<Offer> offers = new ArrayList<>();
+    private static OfferDao offerDao;
 
-    // Find offers based on Id
-    public Offer read(String offerId) {
-        if(!offers.isEmpty()) {
-            for(Offer o : offers) {
-                if(o.getOfferId().equals(offerId)) {
-                    return o;
-                }
+    private Connection connection = DatabaseConnection.getConnection();
+
+    public OfferDao() throws SQLException {}
+
+    public static OfferDao getInstance() throws SQLException {
+        if(offerDao == null) {
+            offerDao = new OfferDao();
+        }
+        return offerDao;
+    }
+
+    @Override
+    public void add(Offer offer) throws SQLException {
+        String sql = "INSERT INTO auctionsapp_schema.offer (buyerId, auctionId, bid, offerTime) " +
+                "VALUES (?, ?, ?, ?);";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, offer.getBuyer().getUserId());
+            statement.setInt(2, offer.getListing().getAuctionId());
+            statement.setDouble(3, offer.getBid());
+            statement.setDate(4, offer.getOfferTime());
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public Offer read(int id) throws SQLException {
+        String sql = "SELECT * FROM auctionsapp_schema.offer WHERE offerId = ?";
+        ResultSet rs = null;
+        Offer offer = null;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
+
+            while(rs.next()) {
+                offer = new Offer();
+                offer.setOfferId(id);
+                offer.setBid(rs.getDouble("bid"));
+                offer.setOfferTime(rs.getDate("offerTime"));
+            }
+        } finally {
+            if(rs != null) {
+                rs.close();
             }
         }
 
-        return null;
-    }
+        if(offer != null) {
+            Auction auction = AuctionDao.getInstance().read(rs.getInt("auctionId"));
+            User buyer = UserDao.getInstance().read(rs.getInt("buyerId"));
 
-    // Find offers based on User
-    public Offer read(String firstName, String lastName) {
-        if(!offers.isEmpty()) {
-            for(Offer o : offers) {
-                if(o.getBuyer().getLastName().equals(lastName) &&
-                        o.getBuyer().getFirstName().equals(firstName)) {
-                    return o;
-                }
+            if(auction != null) {
+                offer.setListing(auction);
+            }
+            if(buyer != null) {
+                offer.setBuyer(buyer);
             }
         }
-        return null;
+
+        return offer;
     }
 
-    public void delete(Offer offer) {offers.remove(offer);}
+    @Override
+    public void delete(Offer offer) throws SQLException {
+        String sql = "DELETE FROM auctionsapp_schema.offer o WHERE o.offerId = ?";
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, offer.getOfferId());
+            statement.executeUpdate();
+        }
+    }
 
-    public void create(Offer offer) {offers.add(offer);}
+    @Override
+    public void update(Offer offer) throws SQLException {
+        String sql = "UPDATE auctionsapp_schema.offer SET buyerId = ?, " +
+                "auctionId = ?, bid = ?, offerTime = ? " +
+                "WHERE offerId = ?";
 
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, offer.getBuyer().getUserId());
+            statement.setInt(2, offer.getListing().getAuctionId());
+            statement.setDouble(3, offer.getBid());
+            statement.setDate(4, offer.getOfferTime());
+            statement.setInt(5, offer.getOfferId());
+            statement.executeUpdate();
+        }
+    }
 }

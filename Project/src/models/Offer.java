@@ -1,16 +1,17 @@
 package models;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Offer {
-    protected String offerId;
+    private int offerId;
     protected User buyer;
     protected Auction listing;
     protected double bid;
-    protected LocalDate offerTime;
+    protected Date offerTime;
 
     // Setters
-    public void setOfferId(String offerId) {this.offerId = offerId;}
+    public void setOfferId(int offerId) {this.offerId = offerId;}
 
     public void setBuyer(User buyer) {
         this.buyer = buyer;
@@ -22,12 +23,12 @@ public class Offer {
 
     public void setBid(double bid) {this.bid = bid;}
 
-    public void setOfferTime(LocalDate offerTime) {
+    public void setOfferTime(Date offerTime) {
         this.offerTime = offerTime;
     }
 
     // Getters
-    public String getOfferId() {return offerId;}
+    public int getOfferId() {return offerId;}
 
     public User getBuyer() {
         return buyer;
@@ -39,7 +40,7 @@ public class Offer {
 
     public double getBid() {return bid;}
 
-    public LocalDate getOfferTime() {
+    public Date getOfferTime() {
         return offerTime;
     }
 }

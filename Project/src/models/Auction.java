@@ -3,24 +3,28 @@ package models;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.Period;
+import java.sql.Date;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Auction {
-    private String auctionId;
+    private int auctionId;
     private Vehicle auctionedVehicle;
+    private User seller;
     private String description;
     private double startingPrice;
     private double highestBid;
-    private LocalDate startTime;
-    private LocalDate finishTime;
+    private Date startTime;
+    private Date finishTime;
     private List<BufferedImage> photos;
 
     // Setters
-    public void setAuctionId(String auctionId) {this.auctionId = auctionId;}
+    public void setAuctionId(int auctionId) {this.auctionId = auctionId;}
     public void setAuctionedVehicle(Vehicle auctionedVehicle) {
         this.auctionedVehicle = auctionedVehicle;
     }
+
+    public void setSeller(User seller) {this.seller = seller;}
 
     public void setDescription(String description) {
         this.description = description;
@@ -34,19 +38,21 @@ public class Auction {
         this.highestBid = highestBid;
     }
 
-    public void setStartTime(LocalDate startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public void setFinishTime(LocalDate finishTime) {
+    public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
     }
 
     // Getters
-    public String getAuctionId() {return auctionId;}
+    public int getAuctionId() {return auctionId;}
     public Vehicle getAuctionedVehicle() {
         return auctionedVehicle;
     }
+
+    public User getSeller() {return seller;}
 
     public String getDescription() {
         return description;
@@ -60,11 +66,11 @@ public class Auction {
         return highestBid;
     }
 
-    public LocalDate getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public LocalDate getFinishTime() {
+    public Date getFinishTime() {
         return finishTime;
     }
 }

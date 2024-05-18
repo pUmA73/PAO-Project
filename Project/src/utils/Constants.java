@@ -5,5 +5,8 @@ public class Constants {
     public static final String JDBC_PASS = "";
     public static final String JDBC_USER = "user";
 
+    public static final String CAR = "car";
+    public static final String MOTORCYCLE = "motorcycle";
+
     public static final String AUDIT_FILE = "";
 }

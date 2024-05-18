@@ -64,6 +64,40 @@ public class MotorcycleDao implements DaoInterface<Motorcycle>{
     }
 
     @Override
+    public Motorcycle read(int id) throws SQLException {
+        String sql = "SELECT * FROM auctionsapp_schema.motorcycle m JOIN auctionsapp_schema.vehicle v " +
+                "ON m.vehicleId = v.vehicleId WHERE v.vehicleId = ?";
+        ResultSet rs = null;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
+
+            while(rs.next()) {
+                Motorcycle motorcycle = new Motorcycle();
+                motorcycle.setVehicleId(id);
+                motorcycle.setMake(rs.getString("make"));
+                motorcycle.setModel(rs.getString("model"));
+                motorcycle.setProductionYear(rs.getInt("productionYear"));
+                motorcycle.setEngineCapacity(rs.getDouble("engineCapacity"));
+                motorcycle.setEngineConfiguration(rs.getString("engineConfiguration"));
+                motorcycle.setPower(rs.getInt("power"));
+                motorcycle.setTorque(rs.getInt("torque"));
+                motorcycle.setColor(rs.getString("color"));
+                motorcycle.setAccidentFree(rs.getBoolean("accidentFree"));
+                motorcycle.setCategory(rs.getString("category"));
+                motorcycle.setHasQuickshifter(rs.getBoolean("hasQuickshifter"));
+                motorcycle.setHasABS(rs.getBoolean("hasABS"));
+                return motorcycle;
+            }
+        } finally {
+            if(rs != null) {
+                rs.close();
+            }
+        }
+        return null;
+    }
+
     public Motorcycle read(String make, String model) throws SQLException {
         String sql = "SELECT * FROM auctionsapp_schema.motorcycle m JOIN auctionsapp_schema.vehicle v " +
                 "ON m.vehicleId = v.vehicleId WHERE UPPER(v.make) = ? AND UPPER(v.model) = ?";

@@ -1,90 +1,89 @@
 package daoServices;
 
-
 import dao.CarDao;
 import dao.MotorcycleDao;
-import models.Motorcycle;
 import models.Car;
+import models.Motorcycle;
 import models.Vehicle;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.sql.SQLException;
+
+import static utils.Constants.CAR;
 
 public class VehicleRepositoryService {
+    private final CarDao carDao = CarDao.getInstance();
+    private final MotorcycleDao motorcycleDao = MotorcycleDao.getInstance();
 
-    private CarDao carDao;
-    private MotorcycleDao motorcycleDao;
+    public VehicleRepositoryService() throws SQLException {}
 
-    public VehicleRepositoryService() {
-        this.carDao = new CarDao();
-        this.motorcycleDao = new MotorcycleDao();
-    }
-
-    public List<Car> sortCarsByHp() {
-        List<Car> orderedCars = carDao.getCarsList();
-        // Sorting the list of cars
-        orderedCars.sort(Comparator.comparingInt(Vehicle::getPower));
-        return orderedCars;
-    }
-
-    public Car getCarByMakeModel(String make, String model) {
-        Car car = carDao.read(make, model);
-        if(car != null) {
-            System.out.println(car);
-        } else {
-            System.out.println("No car of the make and model has been found!");
-        }
-
-        return car;
-    }
-
-    public Motorcycle getMotorcycleByMakeModel(String make, String model) {
-        Motorcycle moto = motorcycleDao.read(make, model);
-        if(moto != null) {
-            System.out.println(moto);
-        } else {
-            System.out.println("No motorcycle of the make and model has been found!");
-        }
-
-        return moto;
-    }
-
-    public Vehicle getVehicle(String typeOfVehicle, String make, String model) {
-        Vehicle vehicle;
-        if(typeOfVehicle.equals("car")) {
-            vehicle = getCarByMakeModel(make, model);
-        } else {
-            vehicle = getMotorcycleByMakeModel(make, model);
-        }
-
-        if(vehicle == null) {
-            System.out.println("No vehicle of the make and model has been found!");
-            return null;
+    public Vehicle getVehicle(String vehicleType, String make, String model) {
+        Vehicle vehicle = null;
+        try {
+            if(vehicleType.equals(CAR)) {
+                vehicle = getCarByMakeModel(make, model);
+            } else {
+                vehicle = getMotorcycleByMakeModel(make, model);
+            }
+            if(vehicle == null) {
+                return null;
+            }
+        } catch(SQLException e) {
+            System.out.println("SQLException " + e.getSQLState() + " " + e.getMessage());
         }
 
         return vehicle;
     }
 
-    public void removeVehicle(String typeOfVehicle, String make, String model) {
-        Vehicle vehicle = getVehicle(typeOfVehicle, make, model);
+    public Car getCarByMakeModel(String make, String model) throws SQLException {
+        Car car = carDao.read(make, model);
+        if(car != null) {
+            System.out.println(car);
+        } else {
+            System.out.println("No car of the make and model found!");
+        }
+
+        return car;
+    }
+
+    public Motorcycle getMotorcycleByMakeModel(String make, String model) throws SQLException {
+        Motorcycle motorcycle = motorcycleDao.read(make, model);
+        if(motorcycle != null) {
+            System.out.println(motorcycle);
+        } else {
+            System.out.println("No motorcycle of the make and model found!");
+        }
+
+        return motorcycle;
+    }
+
+    public void removeVehicle(String vehicleType, String make, String model) throws SQLException {
+        Vehicle vehicle = getVehicle(vehicleType, make, model);
         if(vehicle == null) return;
 
-        switch(vehicle) {
+        switch (vehicle) {
             case Car car -> carDao.delete(car);
             case Motorcycle motorcycle -> motorcycleDao.delete(motorcycle);
             default -> throw new IllegalStateException("Unexpected value: " + vehicle);
         }
-
         System.out.println("Removed " + vehicle);
     }
 
-    public void addVehicle(Vehicle vehicle) {
+    public void addVehicle(Vehicle vehicle) throws SQLException {
         if(vehicle != null) {
-            switch(vehicle) {
-                case Car car -> carDao.create(car);
-                case Motorcycle motorcycle -> motorcycleDao.create(motorcycle);
-                default -> throw new IllegalStateException("Unexpected value " + vehicle);
+            switch (vehicle) {
+                case Car car -> carDao.add(car);
+                case Motorcycle motorcycle -> motorcycleDao.add(motorcycle);
+                default -> throw new IllegalStateException("Unexpected value: " + vehicle);
+            }
+        }
+    }
+
+    public void updateVehicle(Vehicle vehicle) throws SQLException {
+        if(vehicle != null) {
+            switch (vehicle) {
+                case Car car -> carDao.update(car);
+                case Motorcycle motorcycle -> motorcycleDao.update(motorcycle);
+                default -> throw new IllegalStateException("Unexpected value: " + vehicle);
             }
         }
     }

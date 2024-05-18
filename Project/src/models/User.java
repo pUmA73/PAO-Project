@@ -1,6 +1,7 @@
 package models;
 
 public class User {
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -8,6 +9,11 @@ public class User {
     private int rating;
 
     // Setters
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -29,6 +35,7 @@ public class User {
     }
 
     // Getters
+    public int getUserId() {return userId;}
     public String getFirstName() {
         return firstName;
     }

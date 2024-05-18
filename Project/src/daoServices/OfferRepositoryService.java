@@ -3,48 +3,41 @@ package daoServices;
 import dao.OfferDao;
 import models.Offer;
 
+import java.sql.SQLException;
+
 public class OfferRepositoryService {
+    private final OfferDao offerDao = OfferDao.getInstance();
 
-    private OfferDao offerDao;
+    public OfferRepositoryService() throws SQLException {}
 
-    public OfferRepositoryService() {this.offerDao = new OfferDao();}
-
-    public Offer getOfferById(String offerId) {
+    public Offer getOffer(int offerId) throws SQLException {
         Offer offer = offerDao.read(offerId);
         if(offer != null) {
             System.out.println(offer);
         } else {
-            System.out.println("No offer has been found!");
+            System.out.println("No offer found!");
         }
 
         return offer;
     }
 
-    public Offer getOfferByUser(String make, String model) {
-        Offer offer = offerDao.read(make, model);
+    public void removeOffer(int offerId) throws SQLException {
+        Offer offer = getOffer(offerId);
+        if(offer == null) return;
+
+        offerDao.delete(offer);
+        System.out.println("Removed: " + offer);
+    }
+
+    public void addOffer(Offer offer) throws SQLException {
         if(offer != null) {
-            System.out.println(offer);
-        } else {
-            System.out.println("No offer has been found!");
-        }
-
-        return offer;
-    }
-
-    public void removeOffer(String offerId) {
-        Offer offer = offerDao.read(offerId);
-        if(offerId == null) {
-            System.out.println("No auction has been found!");
-        } else {
-            offerDao.delete(offer);
-            System.out.println("Removed " + offer);
+            offerDao.add(offer);
         }
     }
 
-    public void addOffer(Offer offer) {
+    public void updateOffer(Offer offer) throws SQLException {
         if(offer != null) {
-            offerDao.create(offer);
+            offerDao.update(offer);
         }
     }
-
 }

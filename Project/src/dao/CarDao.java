@@ -2,6 +2,7 @@ package dao;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import models.Car;
+import models.User;
 import utils.DatabaseConnection;
 
 import java.sql.Connection;
@@ -65,6 +66,39 @@ public class CarDao implements DaoInterface<Car>{
     }
 
     @Override
+    public Car read(int id) throws SQLException {
+        String sql = "SELECT * FROM auctionsapp_schema.car c JOIN auctionsapp_schema.vehicle " +
+                "v on c.vehicleId = v.vehicleId WHERE v.vehicleId = ?";
+        ResultSet rs = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
+
+            while(rs.next()) {
+                Car car = new Car();
+                car.setVehicleId(id);
+                car.setMake(rs.getString("make"));
+                car.setModel(rs.getString("model"));
+                car.setProductionYear(rs.getInt("productionYear"));
+                car.setEngineCapacity(rs.getDouble("engineCapacity"));
+                car.setEngineConfiguration(rs.getString("engineConfiguration"));
+                car.setPower(rs.getInt("power"));
+                car.setTorque(rs.getInt("torque"));
+                car.setColor(rs.getString("color"));
+                car.setAccidentFree(rs.getBoolean("accidentFree"));
+                car.setBodyType(rs.getString("bodyType"));
+                car.setGearboxType(rs.getString("gearboxType"));
+                car.setDriveType(rs.getString("driveType"));
+                return car;
+            }
+        } finally {
+            if(rs != null) {
+                rs.close();
+            }
+        }
+        return null;
+    }
+
     public Car read(String make, String model) throws SQLException {
         String sql = "SELECT * FROM auctionsapp_schema.car c JOIN auctionsapp_schema.vehicle v " +
                 "ON c.vehicleId = v.vehicleId WHERE UPPER(v.make) = ? AND UPPER(v.model) = ?";

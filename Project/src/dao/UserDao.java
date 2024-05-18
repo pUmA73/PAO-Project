@@ -37,6 +37,31 @@ public class UserDao implements DaoInterface<User>{
     }
 
     @Override
+    public User read(int id) throws SQLException {
+        String sql = "SELECT * FROM auctionsapp_schema.user WHERE userId = ?";
+        ResultSet rs = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
+
+            while(rs.next()) {
+                User user = new User();
+                user.setUserId(id);
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRating(rs.getInt("rating"));
+                return user;
+            }
+        } finally {
+            if(rs != null) {
+                rs.close();
+            }
+        }
+        return null;
+    }
+
     public User read(String firstName, String lastName) throws SQLException {
         String sql = "SELECT * FROM auctionsapp_schema.user u  WHERE UPPER(u.firstName) = ? AND UPPER(u.lastName) = ?";
         ResultSet rs = null;
@@ -64,10 +89,9 @@ public class UserDao implements DaoInterface<User>{
 
     @Override
     public void delete(User user) throws SQLException {
-        String sql = "DELETE FROM auctionsapp_schema.user s WHERE s.firstName = ? AND s.lastName = ?";
+        String sql = "DELETE FROM auctionsapp_schema.user s WHERE s.userId = ?";
         try(PreparedStatement statement = connection.prepareStatement(sql);) {
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
+            statement.setInt(1, user.getUserId());
             statement.executeUpdate();
         }
     }

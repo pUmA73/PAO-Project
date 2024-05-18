@@ -1,6 +1,7 @@
 package models;
 
 public class Vehicle {
+    private int vehicleId;
     protected String make;
     protected String model;
     protected int productionYear;
@@ -14,8 +15,9 @@ public class Vehicle {
     // Constructors
     public Vehicle() {}
 
-    public Vehicle(String make, String model, int productionYear, double engineCapacity, String engineConfiguration, int power,
+    public Vehicle(int vehicleId, String make, String model, int productionYear, double engineCapacity, String engineConfiguration, int power,
                    int torque, String color, boolean accidentFree) {
+        this.vehicleId = vehicleId;
         this.make = make;
         this.model = model;
         this.productionYear = productionYear;
@@ -28,6 +30,7 @@ public class Vehicle {
     }
 
     // Setters
+    public void setVehicleId(int vehicleId) {this.vehicleId = vehicleId;}
     public void setMake(String make) {
         this.make = make;
     }
@@ -65,6 +68,7 @@ public class Vehicle {
     }
 
     // Getters
+    public int getVehicleId() {return vehicleId;}
     public String getMake() {
         return make;
     }
