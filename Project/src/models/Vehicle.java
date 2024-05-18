@@ -29,6 +29,19 @@ public class Vehicle {
         this.accidentFree = accidentFree;
     }
 
+    public Vehicle(String make, String model, int productionYear, double engineCapacity, String engineConfiguration, int power,
+                   int torque, String color, boolean accidentFree) {
+        this.make = make;
+        this.model = model;
+        this.productionYear = productionYear;
+        this.engineCapacity = engineCapacity;
+        this.engineConfiguration = engineConfiguration;
+        this.power = power;
+        this.torque = torque;
+        this.color = color;
+        this.accidentFree = accidentFree;
+    }
+
     // Setters
     public void setVehicleId(int vehicleId) {this.vehicleId = vehicleId;}
     public void setMake(String make) {

@@ -89,6 +89,50 @@ public class AuctionDao implements DaoInterface<Auction> {
         return auction;
     }
 
+    public Auction readLastAuction() throws SQLException {
+        String sql = "SELECT auctionId FROM auctionsapp_schema.auction ORDER BY auctionId DESC LIMIT 1";
+        ResultSet rs = null;
+        Auction auction = null;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            rs = statement.executeQuery();
+
+            while(rs.next()) {
+                auction = new Auction();
+                auction.setAuctionId(rs.getInt("auctionId"));
+                auction.setDescription(rs.getString("description"));
+                auction.setStartingPrice((rs.getDouble("startingPrice")));
+                auction.setHighestBid(rs.getDouble("highestBid"));
+                auction.setStartTime(rs.getDate("startTime"));
+                auction.setFinishTime(rs.getDate("finishTime"));
+            }
+        } finally {
+            if(rs != null) {
+                rs.close();
+            }
+        }
+
+        if(auction != null) {
+            // Setam vehiculul scos la licitatie. Acesta poate fi car sau motorcycle
+            Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
+            Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
+
+            if(car != null) {
+                auction.setAuctionedVehicle(car);
+            } else {
+                auction.setAuctionedVehicle(motorcycle);
+            }
+
+            User user = UserDao.getInstance().read(rs.getInt("userId"));
+
+            if(user != null) {
+                auction.setSeller(user);
+            }
+        }
+
+        return auction;
+    }
+
     @Override
     public void delete(Auction auction) throws SQLException {
         String sql = "DELETE FROM auctionsapp_schema.auction a WHERE a.auctionId = ?";

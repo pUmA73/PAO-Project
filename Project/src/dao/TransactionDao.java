@@ -79,6 +79,46 @@ public class TransactionDao implements DaoInterface<Transaction> {
         return transaction;
     }
 
+    public Transaction readLastTransaction() throws SQLException {
+        String sql = "SELECT transactionId FROM auctionsapp_schema.transaction ORDER BY transactionId DESC LIMIT 1";
+        ResultSet rs = null;
+        Transaction transaction = null;
+
+        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+            rs = statement.executeQuery();
+
+            while(rs.next()) {
+                transaction = new Transaction();
+                transaction.setTransactionId(rs.getInt("transactionId"));
+                transaction.setFinalPrice(rs.getDouble("finalPrice"));
+            }
+        } finally {
+            if(rs != null) {
+                rs.close();
+            }
+        }
+
+        if(transaction != null) {
+            User buyer = UserDao.getInstance().read(rs.getInt("buyerId"));
+            User seller = UserDao.getInstance().read(rs.getInt("sellerId"));
+            Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
+            Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
+
+            if(seller != null) {
+                transaction.setSeller(seller);
+            }
+            if(buyer != null) {
+                transaction.setBuyer(buyer);
+            }
+            if(car != null) {
+                transaction.setSoldVehicle(car);
+            } else {
+                transaction.setSoldVehicle(motorcycle);
+            }
+        }
+        return transaction;
+    }
+
     @Override
     public void delete(Transaction transaction) throws SQLException {
         String sql = "DELETE FROM auctionsapp_schema.transaction t WHERE t.transactionId = ?";

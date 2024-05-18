@@ -1,11 +1,22 @@
 package models;
 
+import services.TransactionService;
+
 public class Transaction {
     private int transactionId;
     private User seller;
     private User buyer;
     private Vehicle soldVehicle;
     private double finalPrice;
+
+    public Transaction() {}
+
+    public Transaction(User seller, User buyer, Vehicle soldVehicle, double finalPrice) {
+        this.seller = seller;
+        this.buyer = buyer;
+        this.soldVehicle = soldVehicle;
+        this.finalPrice = finalPrice;
+    }
 
     // Setters
     public void setTransactionId(int transactionId) {this.transactionId = transactionId;}

@@ -8,8 +8,15 @@ public class User {
     private String password;
     private int rating;
 
-    // Setters
+    public User(String firstName, String lastName, String email, String password, int rating) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.rating = rating;
+    }
 
+    // Setters
     public void setUserId(int userId) {
         this.userId = userId;
     }

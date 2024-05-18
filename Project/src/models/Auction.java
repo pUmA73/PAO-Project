@@ -16,7 +16,19 @@ public class Auction {
     private double highestBid;
     private Date startTime;
     private Date finishTime;
-    private List<BufferedImage> photos;
+
+    public Auction() {}
+
+    public Auction(Vehicle auctionedVehicle, User seller, String description,
+                   double startingPrice, double highestBid, Date startTime, Date finishTime) {
+        this.auctionedVehicle = auctionedVehicle;
+        this.seller = seller;
+        this.description = description;
+        this.startingPrice = startingPrice;
+        this.highestBid = highestBid;
+        this.startTime = startTime;
+        this.finishTime = finishTime;
+    }
 
     // Setters
     public void setAuctionId(int auctionId) {this.auctionId = auctionId;}

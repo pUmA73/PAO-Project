@@ -10,12 +10,26 @@ public class UserRepositoryService {
 
     public UserRepositoryService() throws SQLException {}
 
-    public User getUser(String firstName, String lastName) throws SQLException {
+    public User getUserByName(String firstName, String lastName) throws SQLException {
         User user = userDao.read(firstName, lastName);
         if(user != null) {
             System.out.println(user);
         } else {
             System.out.println("No user found!");
+        }
+
+        return user;
+    }
+
+    public User getUser(String firstName, String lastName) {
+        User user = null;
+        try {
+            user = getUserByName(firstName, lastName);
+            if(user == null) {
+                return null;
+            }
+        } catch(SQLException e) {
+            System.out.println("SQLException " + e.getSQLState() + " " + e.getMessage());
         }
 
         return user;
