@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import static utils.Constants.AUDIT_FILE;
 
-public class UserService {
+public class UserService implements CrudService {
     private final UserRepositoryService databaseService;
 
     public UserService() throws SQLException {
@@ -24,6 +24,7 @@ public class UserService {
         String password = scanner.nextLine();
         System.out.println("Rating: ");
         int rating = scanner.nextInt();
+        scanner.nextLine();
 
         return new User(firstName, lastName, email, password, rating);
     }
@@ -46,6 +47,7 @@ public class UserService {
         }
     }
 
+    @Override
     public void create(Scanner scanner) {
         try {
             userInit(scanner);
@@ -54,6 +56,7 @@ public class UserService {
         }
     }
 
+    @Override
     public void read(Scanner scanner) {
         System.out.println("First Name: ");
         String firstName = scanner.nextLine();
@@ -68,6 +71,7 @@ public class UserService {
         }
     }
 
+    @Override
     public void delete(Scanner scanner) {
         System.out.println("First Name: ");
         String firstName = scanner.nextLine();
@@ -82,6 +86,7 @@ public class UserService {
         }
     }
 
+    @Override
     public void update(Scanner scanner) {
         System.out.println("First Name: ");
         String firstName = scanner.nextLine();

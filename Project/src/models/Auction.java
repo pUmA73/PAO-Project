@@ -1,11 +1,8 @@
 package models;
 
-import java.awt.image.BufferedImage;
-import java.time.LocalDate;
-import java.time.Period;
+import models.vehicle.Vehicle;
+
 import java.sql.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Auction {
     private int auctionId;
@@ -84,5 +81,19 @@ public class Auction {
 
     public Date getFinishTime() {
         return finishTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Auction {" +
+                "Auction ID: " + getAuctionId() + "\n" +
+                "Vehicle: " + getAuctionedVehicle().getMake() + " " + getAuctionedVehicle().getModel() + "\n" +
+                "Seller: " + getSeller().getFirstName() + " " + getSeller().getLastName() + "\n" +
+                "Description: " + getDescription().substring(0, Math.min(10, getDescription().length())) + "\n" +
+                "Starting Price: " + getStartingPrice() + "\n" +
+                "Highest Bid: " + getHighestBid() + "\n" +
+                "Start Time: " + getStartTime().toString() + "\n" +
+                "Finish Time: " + getFinishTime().toString() + "\n" +
+                "}";
     }
 }

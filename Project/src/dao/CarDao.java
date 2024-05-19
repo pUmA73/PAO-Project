@@ -1,15 +1,12 @@
 package dao;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
-import models.Car;
-import models.User;
+import models.vehicle.Car;
 import utils.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class CarDao implements DaoInterface<Car>{
     private static CarDao carDao;
@@ -112,6 +109,7 @@ public class CarDao implements DaoInterface<Car>{
 
             while(rs.next()) {
                 Car car = new Car();
+                car.setVehicleId(rs.getInt("vehicleId"));
                 car.setMake(rs.getString("make"));
                 car.setModel(rs.getString("model"));
                 car.setProductionYear(rs.getInt("productionYear"));

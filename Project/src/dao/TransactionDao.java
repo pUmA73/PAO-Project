@@ -1,6 +1,8 @@
 package dao;
 
 import models.*;
+import models.vehicle.Car;
+import models.vehicle.Motorcycle;
 import utils.DatabaseConnection;
 
 import java.sql.Connection;
@@ -51,36 +53,39 @@ public class TransactionDao implements DaoInterface<Transaction> {
                 transaction = new Transaction();
                 transaction.setTransactionId(id);
                 transaction.setFinalPrice(rs.getDouble("finalPrice"));
+                break;
             }
+
+            if(transaction != null) {
+                User buyer = UserDao.getInstance().read(rs.getInt("buyerId"));
+                User seller = UserDao.getInstance().read(rs.getInt("sellerId"));
+                Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
+                Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
+
+                if(seller != null) {
+                    transaction.setSeller(seller);
+                }
+                if(buyer != null) {
+                    transaction.setBuyer(buyer);
+                }
+                if(car != null) {
+                    transaction.setSoldVehicle(car);
+                } else {
+                    transaction.setSoldVehicle(motorcycle);
+                }
+            }
+
         } finally {
             if(rs != null) {
                 rs.close();
             }
         }
 
-        if(transaction != null) {
-            User buyer = UserDao.getInstance().read(rs.getInt("buyerId"));
-            User seller = UserDao.getInstance().read(rs.getInt("sellerId"));
-            Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
-            Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
-
-            if(seller != null) {
-                transaction.setSeller(seller);
-            }
-            if(buyer != null) {
-                transaction.setBuyer(buyer);
-            }
-            if(car != null) {
-                transaction.setSoldVehicle(car);
-            } else {
-                transaction.setSoldVehicle(motorcycle);
-            }
-        }
         return transaction;
     }
 
     public Transaction readLastTransaction() throws SQLException {
-        String sql = "SELECT transactionId FROM auctionsapp_schema.transaction ORDER BY transactionId DESC LIMIT 1";
+        String sql = "SELECT * FROM auctionsapp_schema.transaction ORDER BY transactionId DESC LIMIT 1";
         ResultSet rs = null;
         Transaction transaction = null;
 
@@ -91,6 +96,26 @@ public class TransactionDao implements DaoInterface<Transaction> {
                 transaction = new Transaction();
                 transaction.setTransactionId(rs.getInt("transactionId"));
                 transaction.setFinalPrice(rs.getDouble("finalPrice"));
+                break;
+            }
+
+            if(transaction != null) {
+                User buyer = UserDao.getInstance().read(rs.getInt("buyerId"));
+                User seller = UserDao.getInstance().read(rs.getInt("sellerId"));
+                Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
+                Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
+
+                if(seller != null) {
+                    transaction.setSeller(seller);
+                }
+                if(buyer != null) {
+                    transaction.setBuyer(buyer);
+                }
+                if(car != null) {
+                    transaction.setSoldVehicle(car);
+                } else {
+                    transaction.setSoldVehicle(motorcycle);
+                }
             }
         } finally {
             if(rs != null) {
@@ -98,24 +123,6 @@ public class TransactionDao implements DaoInterface<Transaction> {
             }
         }
 
-        if(transaction != null) {
-            User buyer = UserDao.getInstance().read(rs.getInt("buyerId"));
-            User seller = UserDao.getInstance().read(rs.getInt("sellerId"));
-            Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
-            Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
-
-            if(seller != null) {
-                transaction.setSeller(seller);
-            }
-            if(buyer != null) {
-                transaction.setBuyer(buyer);
-            }
-            if(car != null) {
-                transaction.setSoldVehicle(car);
-            } else {
-                transaction.setSoldVehicle(motorcycle);
-            }
-        }
         return transaction;
     }
 

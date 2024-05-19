@@ -1,6 +1,6 @@
 package models;
 
-import services.TransactionService;
+import models.vehicle.Vehicle;
 
 public class Transaction {
     private int transactionId;
@@ -54,5 +54,15 @@ public class Transaction {
 
     public double getFinalPrice() {
         return finalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction {" +
+                "Seller: " + getSeller().getFirstName() + " " + getSeller().getLastName() + "\n" +
+                "Buyer: " + getBuyer().getFirstName() + " " + getBuyer().getLastName() + "\n" +
+                "Sold Vehicle: " + getSoldVehicle().getMake() + " " + getSoldVehicle().getModel() + "\n" +
+                "Final Price: " + getFinalPrice() + "\n" +
+                "}";
     }
 }

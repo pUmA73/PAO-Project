@@ -93,4 +93,14 @@ ALTER TABLE `auctionsapp_schema`.`motorcycle`
 ADD CONSTRAINT `motorcycle_ibfk_1`
 FOREIGN KEY (`vehicleId`) REFERENCES `vehicle`(`vehicleId`) ON DELETE CASCADE;
 
+#ALTER TABLE `auctionsapp_schema`.`transaction`
+#DROP FOREIGN KEY `transaction_ibfk_3`
 
+ALTER TABLE `auctionsapp_schema`.`transaction`
+ADD CONSTRAINT `transaction_ibfk_3`
+FOREIGN KEY (`vehicleId`) REFERENCES `vehicle`(`vehicleId`) ON DELETE CASCADE;
+
+CREATE TABLE gallery (
+                         `galleryId` INT PRIMARY KEY AUTO_INCREMENT,
+                         `photo_urls` JSON
+);

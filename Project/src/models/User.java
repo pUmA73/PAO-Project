@@ -8,6 +8,8 @@ public class User {
     private String password;
     private int rating;
 
+    public User() {}
+
     public User(String firstName, String lastName, String email, String password, int rating) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,4 +62,15 @@ public class User {
     }
 
     public int getRating() { return rating; }
+
+    @Override
+    public String toString() {
+        return "User {" +
+                "First Name: " + getFirstName() + "\n" +
+                "Last Name: " + getLastName() + "\n" +
+                "Email: " + getEmail() + "\n" +
+                "Password: " + getPassword() + "\n" +
+                "Rating: " + getRating() + "\n" +
+                "}";
+    }
 }

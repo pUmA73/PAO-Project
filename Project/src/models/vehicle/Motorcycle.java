@@ -1,6 +1,8 @@
-package models;
+package models.vehicle;
 
-public class Motorcycle extends Vehicle{
+import models.vehicle.Vehicle;
+
+public class Motorcycle extends Vehicle {
     private String category;
     private boolean hasQuickshifter;
     private boolean hasABS;

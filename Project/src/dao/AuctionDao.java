@@ -1,8 +1,8 @@
 package dao;
 
 import models.Auction;
-import models.Car;
-import models.Motorcycle;
+import models.vehicle.Car;
+import models.vehicle.Motorcycle;
 import models.User;
 import utils.DatabaseConnection;
 
@@ -61,28 +61,30 @@ public class AuctionDao implements DaoInterface<Auction> {
                 auction.setHighestBid(rs.getDouble("highestBid"));
                 auction.setStartTime(rs.getDate("startTime"));
                 auction.setFinishTime(rs.getDate("finishTime"));
+                break;
             }
+
+            if(auction != null) {
+                // Setam vehiculul scos la licitatie. Acesta poate fi car sau motorcycle
+                Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
+                Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
+
+                if(car != null) {
+                    auction.setAuctionedVehicle(car);
+                } else {
+                    auction.setAuctionedVehicle(motorcycle);
+                }
+
+                User user = UserDao.getInstance().read(rs.getInt("sellerId"));
+
+                if(user != null) {
+                    auction.setSeller(user);
+                }
+            }
+
         } finally {
             if(rs != null) {
                 rs.close();
-            }
-        }
-
-        if(auction != null) {
-            // Setam vehiculul scos la licitatie. Acesta poate fi car sau motorcycle
-            Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
-            Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
-
-            if(car != null) {
-                auction.setAuctionedVehicle(car);
-            } else {
-                auction.setAuctionedVehicle(motorcycle);
-            }
-
-            User user = UserDao.getInstance().read(rs.getInt("userId"));
-
-            if(user != null) {
-                auction.setSeller(user);
             }
         }
 
@@ -90,7 +92,7 @@ public class AuctionDao implements DaoInterface<Auction> {
     }
 
     public Auction readLastAuction() throws SQLException {
-        String sql = "SELECT auctionId FROM auctionsapp_schema.auction ORDER BY auctionId DESC LIMIT 1";
+        String sql = "SELECT * FROM auctionsapp_schema.auction ORDER BY auctionId DESC LIMIT 1";
         ResultSet rs = null;
         Auction auction = null;
 
@@ -105,28 +107,30 @@ public class AuctionDao implements DaoInterface<Auction> {
                 auction.setHighestBid(rs.getDouble("highestBid"));
                 auction.setStartTime(rs.getDate("startTime"));
                 auction.setFinishTime(rs.getDate("finishTime"));
+                break;
             }
+
+            if(auction != null) {
+                // Setam vehiculul scos la licitatie. Acesta poate fi car sau motorcycle
+                Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
+                Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
+
+                if(car != null) {
+                    auction.setAuctionedVehicle(car);
+                } else {
+                    auction.setAuctionedVehicle(motorcycle);
+                }
+
+                User user = UserDao.getInstance().read(rs.getInt("sellerId"));
+
+                if(user != null) {
+                    auction.setSeller(user);
+                }
+            }
+
         } finally {
             if(rs != null) {
                 rs.close();
-            }
-        }
-
-        if(auction != null) {
-            // Setam vehiculul scos la licitatie. Acesta poate fi car sau motorcycle
-            Car car = CarDao.getInstance().read(rs.getInt("vehicleId"));
-            Motorcycle motorcycle = MotorcycleDao.getInstance().read(rs.getInt("vehicleId"));
-
-            if(car != null) {
-                auction.setAuctionedVehicle(car);
-            } else {
-                auction.setAuctionedVehicle(motorcycle);
-            }
-
-            User user = UserDao.getInstance().read(rs.getInt("userId"));
-
-            if(user != null) {
-                auction.setSeller(user);
             }
         }
 

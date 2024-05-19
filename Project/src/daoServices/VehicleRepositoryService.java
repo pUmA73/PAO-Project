@@ -2,9 +2,9 @@ package daoServices;
 
 import dao.CarDao;
 import dao.MotorcycleDao;
-import models.Car;
-import models.Motorcycle;
-import models.Vehicle;
+import models.vehicle.Car;
+import models.vehicle.Motorcycle;
+import models.vehicle.Vehicle;
 
 import java.sql.SQLException;
 

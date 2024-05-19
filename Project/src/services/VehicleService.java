@@ -1,18 +1,17 @@
 package services;
 
 import daoServices.VehicleRepositoryService;
-import models.Car;
-import models.Motorcycle;
-import models.Vehicle;
+import models.vehicle.Car;
+import models.vehicle.Motorcycle;
+import models.vehicle.Vehicle;
 import utils.AuditManager;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
 import static utils.Constants.*;
 
-public class VehicleService {
+public class VehicleService implements CrudService {
 
     private final VehicleRepositoryService databaseService;
 
@@ -119,6 +118,7 @@ public class VehicleService {
 
     }
 
+    @Override
     public void create(Scanner scanner) {
         System.out.println("Enter the type of vehicle [car/motorcycle]:");
         String typeOfVehicle = scanner.nextLine().toLowerCase();
@@ -137,6 +137,7 @@ public class VehicleService {
 //        }
 //    }
 
+    @Override
     public void read(Scanner scanner) {
         System.out.println("Make:");
         String make = scanner.nextLine();
@@ -159,6 +160,7 @@ public class VehicleService {
         }
     }
 
+    @Override
     public void delete(Scanner scanner) {
         System.out.println("Make:");
         String make = scanner.nextLine();
@@ -179,6 +181,7 @@ public class VehicleService {
         }
     }
 
+    @Override
     public void update(Scanner scanner) {
         System.out.println("Vehicle type[car/motorcycle]:");
         String typeOfVehicle = scanner.nextLine();

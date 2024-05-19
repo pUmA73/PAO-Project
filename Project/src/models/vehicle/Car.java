@@ -1,6 +1,8 @@
-package models;
+package models.vehicle;
 
-public class Car extends Vehicle{
+import models.vehicle.Vehicle;
+
+public class Car extends Vehicle {
     private String bodyType;
     private String gearboxType;
     private String driveType;

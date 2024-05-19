@@ -5,10 +5,10 @@ import java.time.LocalDate;
 
 public class Offer {
     private int offerId;
-    protected User buyer;
-    protected Auction listing;
-    protected double bid;
-    protected Date offerTime;
+    private User buyer;
+    private Auction listing;
+    private double bid;
+    private Date offerTime;
 
     // Setters
     public void setOfferId(int offerId) {this.offerId = offerId;}

@@ -5,16 +5,15 @@ import daoServices.UserRepositoryService;
 import daoServices.VehicleRepositoryService;
 import models.Transaction;
 import models.User;
-import models.Vehicle;
+import models.vehicle.Vehicle;
 import utils.AuditManager;
 
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static utils.Constants.AUDIT_FILE;
 
-public class TransactionService {
+public class TransactionService implements CrudService {
     private final TransactionRepositoryService databseService;
 
     private final VehicleRepositoryService vehicleDb;
@@ -57,18 +56,19 @@ public class TransactionService {
     }
 
     private void transcationInit(Scanner scanner) throws SQLException {
-        int lastTransactionId = databseService.getLastTransaction().getTransactionId();
 
         Transaction transaction = setTransactionInfo(scanner);
         try{
             databseService.addTransaction(transaction);
             System.out.println("Created " + transaction);
-            AuditManager.writeToFile(AUDIT_FILE, "add transaction " + lastTransactionId + 1);
+            int lastTransactionId = databseService.getLastTransaction().getTransactionId();
+            AuditManager.writeToFile(AUDIT_FILE, "add transaction " + lastTransactionId);
         } catch (SQLException e) {
             System.out.println("Cannot create " + transaction + " exception " + e.getSQLState() + " " + e.getMessage());
         }
     }
 
+    @Override
     public void create(Scanner scanner) {
         try{
             transcationInit(scanner);
@@ -77,9 +77,11 @@ public class TransactionService {
         }
     }
 
+    @Override
     public void read(Scanner scanner) {
         System.out.println("Transaction ID: ");
         int transactionId = scanner.nextInt();
+        scanner.nextLine();
 
         try{
             databseService.getTransactionById(transactionId);
@@ -89,9 +91,11 @@ public class TransactionService {
         }
     }
 
+    @Override
     public void delete(Scanner scanner) {
         System.out.println("Transaction ID: ");
         int transactionId = scanner.nextInt();
+        scanner.nextLine();
 
         try{
             databseService.removeTransaction(transactionId);
@@ -101,9 +105,11 @@ public class TransactionService {
         }
     }
 
+    @Override
     public void update(Scanner scanner) {
         System.out.println("Transaction ID: ");
         int transactionId = scanner.nextInt();
+        scanner.nextLine();
 
         Transaction transaction = databseService.getTransaction(transactionId);
         if(transaction == null) {return;}

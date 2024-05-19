@@ -1,7 +1,6 @@
 package dao;
 
-import models.Car;
-import models.Motorcycle;
+import models.vehicle.Motorcycle;
 import utils.DatabaseConnection;
 
 import java.sql.Connection;
@@ -111,6 +110,7 @@ public class MotorcycleDao implements DaoInterface<Motorcycle>{
 
             while(rs.next()) {
                 Motorcycle motorcycle = new Motorcycle();
+                motorcycle.setVehicleId(rs.getInt("vehicleId"));
                 motorcycle.setMake(rs.getString("make"));
                 motorcycle.setModel(rs.getString("model"));
                 motorcycle.setProductionYear(rs.getInt("productionYear"));

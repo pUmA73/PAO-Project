@@ -1,7 +1,7 @@
-package models;
+package models.vehicle;
 
 public class Vehicle {
-    private int vehicleId;
+    protected int vehicleId;
     protected String make;
     protected String model;
     protected int productionYear;
@@ -117,6 +117,4 @@ public class Vehicle {
     public boolean getAccidentFree() {
         return accidentFree;
     }
-
-
 }

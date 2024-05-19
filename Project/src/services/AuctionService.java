@@ -4,9 +4,8 @@ import daoServices.AuctionRepositoryService;
 import daoServices.UserRepositoryService;
 import daoServices.VehicleRepositoryService;
 import models.Auction;
-import models.Transaction;
 import models.User;
-import models.Vehicle;
+import models.vehicle.Vehicle;
 import utils.AuditManager;
 
 import java.sql.Date;
@@ -15,7 +14,7 @@ import java.util.Scanner;
 
 import static utils.Constants.AUDIT_FILE;
 
-public class AuctionService {
+public class AuctionService implements CrudService {
     private final AuctionRepositoryService databaseService;
 
     private final VehicleRepositoryService vehicleDb;
@@ -89,6 +88,7 @@ public class AuctionService {
         }
     }
 
+    @Override
     public void create(Scanner scanner) {
         try{
             auctionInit(scanner);
@@ -97,9 +97,11 @@ public class AuctionService {
         }
     }
 
+    @Override
     public void read(Scanner scanner) {
         System.out.println("Auction ID: ");
         int auctionId = scanner.nextInt();
+        scanner.nextLine();
 
         try{
             databaseService.getAuctionById(auctionId);
@@ -109,9 +111,11 @@ public class AuctionService {
         }
     }
 
+    @Override
     public void delete(Scanner scanner) {
         System.out.println("Auction ID: ");
         int auctionId = scanner.nextInt();
+        scanner.nextLine();
 
         try{
             databaseService.removeAuction(auctionId);
@@ -121,9 +125,11 @@ public class AuctionService {
         }
     }
 
+    @Override
     public void update(Scanner scanner) {
         System.out.println("Auction ID: ");
         int auctionId = scanner.nextInt();
+        scanner.nextLine();
 
         Auction auction = databaseService.getAuction(auctionId);
         if(auction == null) {return;}
@@ -140,6 +146,7 @@ public class AuctionService {
 
         try {
             databaseService.updateAuction(auction);
+            System.out.println("Updated " + auction);
         } catch(SQLException e) {
             System.out.println("Transaction cannot be updated " + e.getSQLState() + " " + e.getMessage());
         }
