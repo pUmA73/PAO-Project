@@ -80,9 +80,9 @@ public class AuctionService implements CrudService {
         Auction auction = setAuctionInfo(scanner);
         try {
             databaseService.addAuction(auction);
-            System.out.println("Created " + auction);
-            int lastAuctionId = databaseService.getLastauction().getAuctionId();
-            AuditManager.writeToFile(AUDIT_FILE, "add auction " + lastAuctionId);
+            Auction lastAuction = databaseService.getLastauction();
+            System.out.println("Created " + lastAuction);
+            AuditManager.writeToFile(AUDIT_FILE, "add auction " + lastAuction.getAuctionId());
         } catch (SQLException e) {
             System.out.println("Cannot create auction " + auction + " exception " + e.getSQLState() + " " + e.getMessage());
         }

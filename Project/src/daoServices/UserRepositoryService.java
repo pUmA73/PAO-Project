@@ -52,6 +52,7 @@ public class UserRepositoryService {
     public void updateUser(User user) throws SQLException {
         if(user != null) {
             userDao.update(user);
+            System.out.println("Updated " + user);
         }
     }
 }

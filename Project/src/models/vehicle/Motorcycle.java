@@ -44,6 +44,7 @@ public class Motorcycle extends Vehicle {
     @Override
     public String toString() {
         return "Motorcycle{" +
+                "Vehicle ID:" + getVehicleId() + "\n" +
                 "Make:" + getMake() + "\n" +
                 "Model: " + getModel() + "\n" +
                 "Production year: " + getProductionYear() + "\n" +

@@ -64,6 +64,7 @@ public class AuctionRepositoryService {
     public void updateAuction(Auction auction) throws SQLException {
         if(auction != null) {
             auctionDao.update(auction);
+            System.out.println("Updated " + auction);
         }
     }
 }

@@ -60,9 +60,9 @@ public class TransactionService implements CrudService {
         Transaction transaction = setTransactionInfo(scanner);
         try{
             databseService.addTransaction(transaction);
-            System.out.println("Created " + transaction);
-            int lastTransactionId = databseService.getLastTransaction().getTransactionId();
-            AuditManager.writeToFile(AUDIT_FILE, "add transaction " + lastTransactionId);
+            Transaction lastTransaction = databseService.getLastTransaction();
+            System.out.println("Created " + lastTransaction);
+            AuditManager.writeToFile(AUDIT_FILE, "add transaction " + lastTransaction.getTransactionId());
         } catch (SQLException e) {
             System.out.println("Cannot create " + transaction + " exception " + e.getSQLState() + " " + e.getMessage());
         }

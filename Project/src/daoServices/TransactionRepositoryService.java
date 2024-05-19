@@ -63,6 +63,7 @@ public class TransactionRepositoryService {
     public void updateTransaction(Transaction transaction) throws SQLException {
         if(transaction != null) {
             transactionDao.update(transaction);
+            System.out.println("Updated " + transaction);
         }
     }
 }

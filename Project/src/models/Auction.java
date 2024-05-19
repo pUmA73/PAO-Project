@@ -57,6 +57,7 @@ public class Auction {
 
     // Getters
     public int getAuctionId() {return auctionId;}
+
     public Vehicle getAuctionedVehicle() {
         return auctionedVehicle;
     }

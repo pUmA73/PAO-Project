@@ -59,6 +59,7 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction {" +
+                "Transaction ID: " + getTransactionId() + "\n" +
                 "Seller: " + getSeller().getFirstName() + " " + getSeller().getLastName() + "\n" +
                 "Buyer: " + getBuyer().getFirstName() + " " + getBuyer().getLastName() + "\n" +
                 "Sold Vehicle: " + getSoldVehicle().getMake() + " " + getSoldVehicle().getModel() + "\n" +

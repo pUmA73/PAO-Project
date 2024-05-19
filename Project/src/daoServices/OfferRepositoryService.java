@@ -38,6 +38,7 @@ public class OfferRepositoryService {
     public void updateOffer(Offer offer) throws SQLException {
         if(offer != null) {
             offerDao.update(offer);
+            System.out.println("Updated: " + offer);
         }
     }
 }
