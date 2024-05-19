@@ -43,7 +43,7 @@ public class Motorcycle extends Vehicle {
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "Motorcycle{" +
                 "Make:" + getMake() + "\n" +
                 "Model: " + getModel() + "\n" +
                 "Production year: " + getProductionYear() + "\n" +
