@@ -1,12 +1,14 @@
 package utils;
 
 public class Constants {
-    public static final String JDBC_DRIVER = "jdbc:mysql://127.0.0.1:3306/demo_schema";
+
+    // pentru conexiune baza de date
+    public static final String JDBC_DRIVER = "";
     public static final String JDBC_PASS = "";
-    public static final String JDBC_USER = "user";
+    public static final String JDBC_USER = "";
 
     public static final String CAR = "car";
     public static final String MOTORCYCLE = "motorcycle";
 
-    public static final String AUDIT_FILE = "";
+    public static final String AUDIT_FILE = "audit.csv";
 }
